@@ -4,16 +4,14 @@ import wx
 import wx.xrc
 from formRunproc import FormRunproc
 from formInsprogs import FormInsprogs
+from formWebrequest import FormWebrequest
 
 ###########################################################################
 ## Class MainForm
 ###########################################################################
 
 #----------------------------------------------------------------------
-ID_exit = wx.NewIdRef()
-ID_form_runproc = wx.NewIdRef()
-ID_form_insprogs = wx.NewIdRef()
-ID_about = wx.NewIdRef()
+[ID_EXIT, ID_FORM1, ID_FORM2, ID_FORM3, ID_ABOUT] = wx.NewIdRef(5)
 #----------------------------------------------------------------------
 
 class FormMain(wx.MDIParentFrame):
@@ -25,19 +23,20 @@ class FormMain(wx.MDIParentFrame):
 
         m__file = wx.Menu()
         #m__file.AppendSeparator()
-        m__file.Append(ID_exit, "E&xit")
+        m__file.Append(ID_EXIT, "E&xit")
 
         m__tools = wx.Menu()
-        m__tools.Append(ID_form_runproc, u"Running processes")
-
-        m__tools.Append(ID_form_insprogs, u"Installed programs")
+        m__tools.Append(ID_FORM1, u"Running processes")
+        m__tools.Append(ID_FORM2, u"Installed programs")
+        m__tools.Append(ID_FORM3, u"Web requests")
 
         m__help = wx.Menu()
-        m__help.Append(ID_about, u"About")
+        m__help.Append(ID_ABOUT, u"About")
 
-        self.Bind(wx.EVT_MENU, self.OnExit, id=ID_exit)
-        self.Bind(wx.EVT_MENU, self.OnForm1, id=ID_form_runproc)
-        self.Bind(wx.EVT_MENU, self.OnForm2, id=ID_form_insprogs)
+        self.Bind(wx.EVT_MENU, self.OnExit, id=ID_EXIT)
+        self.Bind(wx.EVT_MENU, self.OnForm1, id=ID_FORM1)
+        self.Bind(wx.EVT_MENU, self.OnForm2, id=ID_FORM2)
+        self.Bind(wx.EVT_MENU, self.OnForm3, id=ID_FORM3)
 
         menubar = wx.MenuBar()
         menubar.Append(m__file, u"File")
@@ -61,6 +60,11 @@ class FormMain(wx.MDIParentFrame):
     def OnForm2(self, evt):
         self.winCount = self.winCount + 1
         win = FormInsprogs(self, "Installed programs")
+        win.Show(True)
+
+    def OnForm3(self, evt):
+        self.winCount = self.winCount + 1
+        win = FormWebrequest(self, "Web requests")
         win.Show(True)
 
     def __del__(self):
